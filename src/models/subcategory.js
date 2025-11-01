@@ -55,26 +55,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         comment: "Thumbnail or cover image for subcategory",
       },
-      banner: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        comment: "Banner image for promotional sections",
-      },
-      metaTitle: {
-        type: DataTypes.STRING(60),
-        allowNull: true,
-        comment: "SEO meta title",
-      },
-      metaDescription: {
-        type: DataTypes.STRING(160),
-        allowNull: true,
-        comment: "SEO meta description",
-      },
-      metaKeywords: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-        comment: "SEO keywords, comma separated",
-      },
       displayOrder: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
