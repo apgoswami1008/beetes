@@ -14,9 +14,11 @@ app.use(express.urlencoded({ extended: true }));
 // Routes will be added here
 const authRoutes = require('./routes/auth.routes');
 const categoryRoutes = require("./routes/category.routes");
+const subCategoryRoutes = require("./routes/subcategory.routes");
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/sub-categories', subCategoryRoutes);
 app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 

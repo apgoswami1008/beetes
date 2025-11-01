@@ -2,19 +2,29 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("categories", {
+    await queryInterface.createTable("sub_categories", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      categoryId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "categories", // ✅ must match actual table name
+          key: "id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      },
       name: {
         type: Sequelize.STRING(100),
         allowNull: false,
       },
       slug: {
-        type: Sequelize.STRING(150),
+        type: Sequelize.STRING(120),
         allowNull: false,
         unique: true,
       },
@@ -38,15 +48,13 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
-      parentId: {
-        type: Sequelize.INTEGER,
+      createdBy: {
+        type: Sequelize.STRING,
         allowNull: true,
-        references: {
-          model: "categories",
-          key: "id",
-        },
-        onDelete: "SET NULL",
-        onUpdate: "CASCADE",
+      },
+      updatedBy: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -64,13 +72,14 @@ module.exports = {
       },
     });
 
-    // Add indexes for better query performance
-    await queryInterface.addIndex("categories", ["slug"]);
-    await queryInterface.addIndex("categories", ["isActive"]);
-    await queryInterface.addIndex("categories", ["isFeatured"]);
+    // ✅ Add useful indexes
+    await queryInterface.addIndex("sub_categories", ["slug"]);
+    await queryInterface.addIndex("sub_categories", ["categoryId"]);
+    await queryInterface.addIndex("sub_categories", ["isActive"]);
+    await queryInterface.addIndex("sub_categories", ["isFeatured"]);
   },
 
-  async down(queryInterface) {
-    await queryInterface.dropTable("categories");
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable("sub_categories");
   },
 };
