@@ -151,27 +151,14 @@ exports.updateCategory = async (req, res, next) => {
 };
 
 // Delete Category (Soft Delete)
-exports.deleteCategory = async (req, res, next) => {
-  try {
-    const { id } = req.params;
+exports.deleteCategory = async (req, res) => {
+  const { id } = req.params;
+  const result = await deleteRecord(Category, id);
+  return res.status(result.statusCode).json(result);
+};
 
-    const category = await Category.findByPk(id);
-    if (!category) {
-      return res.status(404).json({
-        status: "error",
-        statusCode: 404,
-        message: "Category not found",
-      });
-    }
-
-    await category.destroy();
-
-    res.status(200).json({
-      status: "success",
-      statusCode: 200,
-      message: "Category deleted successfully (soft delete)",
-    });
-  } catch (err) {
-    next(err);
-  }
+exports.changeCategoryStatus = async (req, res) => {
+  const { id } = req.params;
+  const result = await toggleStatus(Category, id, "isActive");
+  return res.status(result.statusCode).json(result);
 };

@@ -9,5 +9,5 @@ router.get("/", subCategoryController.getSubCategories);
 router.get("/:id", subCategoryController.getSubCategoryById);
 router.put("/:id", createSubCategoryValidation, validate, subCategoryController.updateSubCategory);
 router.delete("/:id", subCategoryController.deleteSubCategory);
-
+router.patch("/status/:id", subCategoryController.changeSubCategoryStatus);
 module.exports = router;

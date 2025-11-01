@@ -10,5 +10,5 @@ router.get("/", categoryController.getCategories);
 router.get("/:id", categoryController.getCategoryById);
 router.put("/:id", createCategoryValidation, validate, categoryController.updateCategory);
 router.delete("/:id", categoryController.deleteCategory);
-
+router.patch("/status/:id", categoryController.changeCategoryStatus);
 module.exports = router;

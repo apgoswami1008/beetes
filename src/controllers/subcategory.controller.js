@@ -1,5 +1,6 @@
 const { SubCategory, Category } = require("../models");
 const slugify = require("slugify");
+const { deleteRecord, toggleStatus } = require("../helpers/dbHelpers");
 
 // ✅ Create Subcategory
 exports.createSubCategory = async (req, res, next) => {
@@ -145,27 +146,14 @@ exports.updateSubCategory = async (req, res, next) => {
 };
 
 // ✅ Delete Subcategory
-exports.deleteSubCategory = async (req, res, next) => {
-  try {
-    const { id } = req.params;
+exports.deleteSubCategory = async (req, res) => {
+  const { id } = req.params;
+  const result = await deleteRecord(SubCategory, id);
+  return res.status(result.statusCode).json(result);
+};
 
-    const subCategory = await SubCategory.findByPk(id);
-    if (!subCategory) {
-      return res.status(404).json({
-        status: false,
-        statusCode: 404,
-        message: "Subcategory not found",
-      });
-    }
-
-    await subCategory.destroy();
-
-    res.status(200).json({
-      status: true,
-      statusCode: 200,
-      message: "Subcategory deleted successfully",
-    });
-  } catch (err) {
-    next(err);
-  }
+exports.changeSubCategoryStatus = async (req, res) => {
+  const { id } = req.params;
+  const result = await toggleStatus(SubCategory, id, "isActive");
+  return res.status(result.statusCode).json(result);
 };
